@@ -64,8 +64,9 @@ export class Tab1Page {
             this.listaNotas.push(nota);
           });
           //Ocultar el loading
-          console.log(this.listaNotas);
-          this.loadingController.dismiss();
+          if (this.loadingController) {
+            this.loadingController.dismiss();
+          }
           if ($event) {
             $event.target.complete();
           }

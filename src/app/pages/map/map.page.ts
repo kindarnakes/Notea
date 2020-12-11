@@ -21,7 +21,7 @@ export class MapPage implements OnInit, OnDestroy {
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'ies Francisco de los Rios',
     }).addTo(this.map);
-    let myIcon = Leaflet.divIcon({iconUrl: 'resources/red-marker.png'});
+    let myIcon = Leaflet.divIcon({iconUrl: '../../../assets/red-marker.png'});
     Leaflet.marker([this.nota.coordenadas.lat, this.nota.coordenadas.lon], {icon: myIcon}).addTo(this.map).bindPopup(this.nota.titulo);
 
   }
