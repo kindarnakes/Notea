@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tab3',
@@ -7,6 +9,24 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
+  
+  constructor(public authS:AuthService, private router:Router) {
+  }
+
+  ionViewDidEnter(){
+
+  }
+
+  
+  public async logout() {
+    await this.authS.logout();
+    if (!this.authS.isLogged()) {
+      this.router.navigate(['/login'])
+    }
+  }
+
+  public map(){
+    this.router.navigate(['/map']);
+  }
 
 }
