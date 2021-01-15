@@ -1,22 +1,34 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Editar {{this.nota.titulo}}</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>{{'EDIT' | translate}} {{this.nota.titulo}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <form [formGroup]="tasks" (ngSubmit)="this.sendForm()">
     <ion-item>
-      <ion-input type="text" formControlName="title" placeholder="Título"></ion-input>
+      <ion-input type="text" formControlName="title" [placeholder]="'TITLE' | translate"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-textarea formControlName="description" placeholder="Descripción" autocapitalize="true" auto-grow="true">
+      <ion-textarea formControlName="description" [placeholder]="'DESCRIPTION' | translate" autocapitalize="true" auto-grow="true">
       </ion-textarea>
     </ion-item>
     <div style="text-align: right;">
-      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!tasks.valid">Añadir
+      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!tasks.valid">{{'ADD' | translate}}
       </ion-button>
     </div>
   </form>
-  <ion-button (click)="this.map(this.nota)" color="danger">MAP</ion-button>
+  <ion-button (click)="this.map(this.nota)" color="danger">{{'MAP' | translate}}</ion-button>
+
+  <br/>
+
+  <form [formGroup]="share" (ngSubmit)="this.toshare()" *ngIf="this.nota.creador == this.auth.user.email">
+    <ion-item>
+      <ion-input type="text" formControlName="email" [placeholder]="'EMAIL' | translate"></ion-input>
+    </ion-item>
+    <div style="text-align: right;">
+      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!share.valid">{{'SHARE' | translate}}
+      </ion-button>
+    </div>
+  </form>
 </ion-content>

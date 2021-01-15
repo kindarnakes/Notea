@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Añadir Tarea
+      {{'ADD' | translate}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,14 +9,14 @@
 <ion-content [fullscreen]="true" style="padding: 2em;">
   <form [formGroup]="tasks" (ngSubmit)="this.sendForm()">
     <ion-item>
-      <ion-input type="text" formControlName="title" placeholder="Título"></ion-input>
+      <ion-input type="text" formControlName="title" [placeholder]="'TITLE' | translate"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-textarea formControlName="description" placeholder="Descripción" autocapitalize="true" auto-grow="true">
+      <ion-textarea formControlName="description" [placeholder]="'DESCRIPTION' | translate" autocapitalize="true" auto-grow="true">
       </ion-textarea>
     </ion-item>
     <div style="text-align: right;">
-      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!tasks.valid">Añadir
+      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!tasks.valid">{{'ADD' | translate}}
       </ion-button>
     </div>
   </form>

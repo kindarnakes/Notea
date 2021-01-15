@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ConfirmPageRoutingModule } from './confirm-routing.module';
 
 import { ConfirmPage } from './confirm.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfirmPageRoutingModule
+    ConfirmPageRoutingModule,
+    TranslateModule.forChild()
   ],
   declarations: [ConfirmPage]
 })

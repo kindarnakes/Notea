@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { TranslationService } from '../services/translation.service';
 
 @Component({
   selector: 'app-tab3',
@@ -9,14 +10,16 @@ import { AuthService } from '../services/auth.service';
 })
 export class Tab3Page {
 
-  
-  constructor(public authS:AuthService, private router:Router) {
+  constructor(public authS:AuthService, private router:Router, public tranS:TranslationService) {
   }
 
   ionViewDidEnter(){
 
   }
 
+  public toogleMode(){
+      document.body.classList.toggle('dark');
+  }
   
   public async logout() {
     await this.authS.logout();

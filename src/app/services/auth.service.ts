@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Nota } from '../model/nota';
+import { NotasService } from './notas.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,18 @@ export class AuthService implements CanActivate {
     email: ''
   }
 
+  public url = 'http://notea.ddns.net:3000/';
+  public apiKey = 'Franciscodelosrios.es';
+
+
 
 
   public log:boolean = true;
+  public firtsLoad: boolean;
 
   constructor(private storage: NativeStorage,
     private google: GooglePlus,
-    private router: Router) {
+    private router: Router, private http:HTTP) {
   }
 
   async init() {
@@ -36,7 +42,7 @@ export class AuthService implements CanActivate {
     }
     if (u != null) {
       this.user = u;
-      console.log(this.user.name);
+      //console.log(this.user.name);
       
     }
   }
@@ -55,17 +61,18 @@ export class AuthService implements CanActivate {
       };
       await this.google.trySilentLogin(options)
       await this.google.logout();
+
+      this.user = {
+        token: -1,
+        name: '',
+        avatar: '',
+        email: ''
+      }
+      await this.storage.setItem("user", this.user);
+      this.firtsLoad = true;
     } catch (err) {
       console.log(err);
     }
-
-    this.user = {
-      token: -1,
-      name: '',
-      avatar: '',
-      email: ''
-    }
-    await this.storage.setItem("user", this.user);
   }
 
   public async login() {
@@ -80,6 +87,8 @@ export class AuthService implements CanActivate {
           avatar: u['imageUrl'],
           email: u['email']
         }
+        this.http.post(this.url+'user/add', {email:this.user.email}, {apiKey:this.apiKey});
+        this.firtsLoad = true;
       }
     } catch (err) {
       this.user = {

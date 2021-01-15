@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
 import { Nota } from '../model/nota';
 import { EditNotaPage } from '../pages/edit-nota/edit-nota.page';
 import { NotasService } from '../services/notas.service';
@@ -7,6 +6,8 @@ import { ConfirmPage } from '../pages/confirm/confirm.page';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UtilitiesService } from '../services/utilities.service';
+import { LightService } from '../services/light.service';
 
 
 @Component({
@@ -18,13 +19,16 @@ export class Tab1Page {
 
   public listaNotas = [];
   firtsLoad: boolean = true;
+  items_per_page:number = 10;
+  page:number = 1;
 
   public searchF: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder, private notasS: NotasService,
-    private modalController: ModalController, private vibration: Vibration,
-    public loadingController: LoadingController, public aut: AuthService) {
+     private vibration: Vibration,
+    public aut: AuthService, public utils: UtilitiesService,
+    private light:LightService) {
 
     this.searchF = this.formBuilder.group({
       title: ['', Validators.required]
@@ -33,12 +37,11 @@ export class Tab1Page {
 
 
   ngOnInit() {
-    this.cargaDatos();
-    this.firtsLoad = false;
+    //this.notasS.coleccion();
   }
 
   ionViewDidEnter() {
-    if (this.aut.log) {
+    if (this.firtsLoad) {
       this.cargaDatos();
       this.aut.logPassed();
     }
@@ -49,42 +52,42 @@ export class Tab1Page {
   }
 
 
-  public cargaDatos($event = null) {
-    this.firtsLoad && this.presentLoading();
+  public async cargaDatos($event = null) {
+    this.aut.firtsLoad && await this.utils.presentLoading();
     try {
-      this.notasS.leeNotas()
-        .subscribe((info: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>) => {
+      this.page = 1;
+      this.notasS.leeNotasPorPagina(this.items_per_page, this.page)
+        .then((info) => {          
           //Ya ha llegado del servidor
           this.listaNotas = [];
-          info.forEach((doc) => {
+          JSON.parse(info.data).forEach((doc) => {
             let nota = {
               id: doc.id,
-              ...doc.data()
+              ...doc as Nota
             }
             this.listaNotas.push(nota);
           });
           //Ocultar el loading
-          if (this.loadingController) {
-            this.loadingController.dismiss();
+          if (this.aut.firtsLoad) {
+            this.utils.stopLoading();
+            this.aut.firtsLoad = false;
           }
+
           if ($event) {
             $event.target.complete();
           }
         })
     } catch (err) {
-      this.loadingController.dismiss();
+      this.utils.stopLoading();
       //Error
     }
   }
-  public async borraNota(id: any) {
-    this.vibration.vibrate(1000);
-    const modal = await this.modalController.create({
-      component: ConfirmPage,
-      cssClass: 'my-custom-class'
-    });
-    await modal.present();
 
-    await modal.onDidDismiss().then((clear) => {
+
+  public borraNota(id: any) {
+    this.vibration.vibrate(1000);
+    this.utils.modal(ConfirmPage, {})
+    .then((clear) => {
       if (clear.data == true) {
         this.notasS.borraNota(id)
           .then(() => {
@@ -103,53 +106,47 @@ export class Tab1Page {
     })
   }
 
-  public async editaNota(nota: Nota) {
+  public editaNota(nota: Nota) {
     let pos: number = this.listaNotas.indexOf(nota);
-    const modal = await this.modalController.create({
-      component: EditNotaPage,
-      cssClass: 'my-custom-class',
-      componentProps: {
-        nota: nota
+
+    this.utils.modal(EditNotaPage, {nota:nota}).then(data => {
+      if (data.data) {
+        this.listaNotas[pos] = data.data;
       }
     });
-
-
-    await modal.present();
-
-    await modal.onDidDismiss().then((data) => {
-      if (data.data['titulo'] != null) {
-        console.log(data.data);
-        this.listaNotas[pos] = {
-          id: nota.id,
-          ...data.data as Nota
-        };
-      }
-    });
-  }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: '',
-      spinner: 'crescent'
-    });
-    await loading.present();
   }
 
   public search() {
     this.listaNotas = [];
 
-    this.notasS.leeNotasPorTitulo(this.searchF.get('title').value).get().then((info) => {
+    this.notasS.leeNotasPorTitulo(this.searchF.get('title').value).then((info) => {
       //Ya ha llegado del servidor
       this.listaNotas = [];
-      info.forEach((doc) => {
+      JSON.parse(info.data).forEach((doc) => {
         let nota = {
           id: doc.id,
-          ...doc.data()
+          ...doc as Nota
         }
         this.listaNotas.push(nota);
       })
     });
+  }
+
+
+  public async loadData(event) {
+    this.page +=1; 
+      await this.notasS.leeNotasPorPagina(this.items_per_page, this.page).then((data)=>{
+        JSON.parse(data.data).forEach((doc) => {
+          let nota = {
+            id: doc.id,
+            ...doc as Nota
+          }
+          this.listaNotas.push(nota);
+        })
+        event.target.complete();
+      })
+
+
   }
 
 }

@@ -1,8 +1,10 @@
 export interface Nota{
     id?:any,
     titulo:string,
-    texto:string,
+    contenido:string,
+    creador:string,
     fecha?:any,
-    coordenadas?:{lat:any, lon:any},
+    latitud?:number, 
+    longitud?:number,
     imagen?:any
 }

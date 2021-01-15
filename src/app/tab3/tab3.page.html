@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Perfil
+      {{'PROFILE' | translate}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,5 +11,20 @@
   <img [src]="this.authS.user.avatar" style="max-width: 70%;">
   <h1>{{this.authS.user.name}}</h1>
   <h2>{{this.authS.user.email}}</h2>
-  <ion-button (click)="this.logout()" color="danger"><ion-icon name="exit"></ion-icon></ion-button>
+<div style="display: flex; justify-content: center">
+  <div style="align-self: center">
+    <ion-label no-lines>{{this.tranS.language}}</ion-label></div>
+  <ion-toggle (click)="this.tranS.changeLanguage()"></ion-toggle>
+</div>
+<div style="display: flex; justify-content: center">
+  <div style="align-self: center">
+    <ion-label no-lines>{{'DARK_MODE' | translate}}</ion-label></div>
+    <ion-button (click)="this.toogleMode()" color="primary">
+      <ion-icon name="contrast"></ion-icon>
+    </ion-button>
+</div>
+  <ion-button (click)="this.logout()" color="danger">
+    <ion-icon name="exit"></ion-icon>
+  </ion-button>
+
 </ion-content>

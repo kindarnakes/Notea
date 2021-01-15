@@ -1,0 +1,21 @@
+{
+    "NOTES": "Notas",
+    "ADD": "Añadir",
+    "PROFILE": "Perfil",
+    "TITLE": "Título",
+    "DESCRIPTION": "Descripción",
+    "SAVE": "Nota guardada",
+    "ERR_SAVE": "Error guardando la nota",
+    "YES": "Si",
+    "NO": "No",
+    "REMOVE?": "¿Seguro que desea eliminar?",
+    "EDIT": "Editar",
+    "MAP": "Mapa",
+    "LOGIN": "Identificarse",
+    "DARK_MODE": "Modo oscuro",
+    "EMAIL": "Correo Electrónico",
+    "SHARED": "Nota compartida",
+    "ERR_SHARE": "Error compartiendo la nota",
+    "SHARE": "Compartir",
+    "LOADING": "Cargando"
+  }

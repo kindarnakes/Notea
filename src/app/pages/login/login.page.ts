@@ -23,7 +23,6 @@ export class LoginPage implements OnInit {
   public async login(){
     try{
     let u=await this.authS.login();
-    console.log(u)
     if(u.token!=-1){
       this.db.coleccion();
       this.authS.logPassed();

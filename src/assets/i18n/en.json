@@ -1,0 +1,21 @@
+{
+    "NOTES": "Notes",
+    "ADD": "Add note",
+    "PROFILE": "User profile",
+    "TITLE": "Title",
+    "DESCRIPTION": "Description",
+    "SAVE": "Note saved",
+    "ERR_SAVE": "Error to save note",
+    "YES": "Yes",
+    "NO": "No",
+    "REMOVE?": "Are you sure to remove?",
+    "EDIT": "Edit",
+    "MAP": "Map",
+    "LOGIN": "Sign In",
+    "DARK_MODE": "Dark Mode",
+    "EMAIL": "E-mail",
+    "SHARED": "Note shared",
+    "ERR_SHARE": "Error to shared note",
+    "SHARE": "Share",
+    "LOADING": "Loading"
+  }

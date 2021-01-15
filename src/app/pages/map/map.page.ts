@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import * as Leaflet from 'leaflet';
+import {icon, Marker} from 'leaflet';
 import { Nota } from 'src/app/model/nota';
 @Component({
   selector: 'app-map',
@@ -9,20 +10,39 @@ import { Nota } from 'src/app/model/nota';
 export class MapPage implements OnInit, OnDestroy {
   map: Leaflet.Map;
 
+  iconRetinaUrl = 'assets/marker-icon-2x.png';
+  iconUrl = 'assets/marker-icon.png';
+  shadowUrl = 'assets/marker-shadow.png';
+  iconDefault = icon({
+ iconRetinaUrl:this.iconRetinaUrl,
+ iconUrl:this.iconUrl,
+ shadowUrl:this.shadowUrl,
+ iconSize: [25, 41],
+ iconAnchor: [12, 41],
+ popupAnchor: [1, -34],
+ tooltipAnchor: [16, -28],
+ shadowSize: [41, 41]
+});
+
   @Input('nota') nota: Nota;
-  
-  constructor() { }
+
+  constructor() {
+    Marker.prototype.options.icon = this.iconDefault;
+   }
 
   ngOnInit() { }
   ionViewDidEnter() { this.leafletMap(); }
 
   leafletMap() {
-    this.map = Leaflet.map('mapId').setView([this.nota.coordenadas.lat, this.nota.coordenadas.lon], 200);
+    console.log([this.nota.latitud, this.nota.longitud]);
+    this.map = Leaflet.map('mapId').setView([this.nota.latitud, this.nota.longitud], 200);
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'ies Francisco de los Rios',
     }).addTo(this.map);
-    let myIcon = Leaflet.divIcon({iconUrl: '../../../assets/red-marker.png'});
-    Leaflet.marker([this.nota.coordenadas.lat, this.nota.coordenadas.lon], {icon: myIcon}).addTo(this.map).bindPopup(this.nota.titulo);
+
+    
+    
+    Leaflet.marker([this.nota.latitud, this.nota.longitud]).addTo(this.map).bindPopup(this.nota.titulo);
 
   }
 

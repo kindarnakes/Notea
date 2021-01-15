@@ -1,17 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Borrar</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content style="text-align: center;">
-<h1>¿Seguro que desea borrar?</h1>
+<h1>{{'REMOVE?' | translate}}</h1>
   <ion-button 
   shape="round"
   color="primary"
-  fill="outline" (click)="this.noBorrar()">No</ion-button>
+  fill="outline" (click)="this.noBorrar()">{{'NO' | translate}}</ion-button>
   <ion-button 
   shape="round"
   color="danger"
-  fill="outline" (click)="this.borraNota()">Si</ion-button>
+  fill="outline" (click)="this.borraNota()">{{'YES' | translate}}</ion-button>
 </ion-content>

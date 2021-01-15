@@ -21,8 +21,20 @@ import { ConfirmPage } from './pages/confirm/confirm.page';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
-import { GoogleMaps } from '@ionic-native/google-maps';
 import { MapPage } from './pages/map/map.page';
+import { HTTP } from '@ionic-native/http/ngx';
+import { UtilitiesService } from './services/utilities.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { GeolocationService } from './services/geolocation.service';
+import { TranslationService } from './services/translation.service';
+import { Sensors } from '@ionic-native/sensors/ngx';
+import { LightService } from './services/light.service';
+
+export function setTranslateLoader(http: any) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent,EditNotaPage, ConfirmPage, MapPage],
@@ -33,7 +45,15 @@ import { MapPage } from './pages/map/map.page';
     IonicModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader, 
+        useFactory: (setTranslateLoader), 
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     StatusBar,
@@ -46,7 +66,12 @@ import { MapPage } from './pages/map/map.page';
     Vibration,
     NativeGeocoder,
     Geolocation,
-    GoogleMaps
+    HTTP,
+    UtilitiesService,
+    GeolocationService,
+    TranslationService,
+    Sensors,
+    LightService
 
   ],
   bootstrap: [AppComponent]
