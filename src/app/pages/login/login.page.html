@@ -5,5 +5,12 @@
 </ion-header>
 
 <ion-content style="text-align: center;">
-  <ion-button color="primary" (click)="this.login()"><ion-icon name="logo-google"></ion-icon> &nbsp; {{'LOGIN' | translate}}</ion-button>
+  <div style="display: flex; justify-content: center;">
+    <div style="align-self: center;">
+      <ion-img src="../../../assets/notea.png" style="padding-left: 15%; padding-right: 15%;"></ion-img>
+      <ion-button color="primary" (click)="this.login()">
+        <ion-icon name="logo-google"></ion-icon> &nbsp; {{'LOGIN' | translate}}
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

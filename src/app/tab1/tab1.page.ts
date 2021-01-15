@@ -19,16 +19,16 @@ export class Tab1Page {
 
   public listaNotas = [];
   firtsLoad: boolean = true;
-  items_per_page:number = 10;
-  page:number = 1;
+  items_per_page: number = 10;
+  page: number = 1;
 
   public searchF: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder, private notasS: NotasService,
-     private vibration: Vibration,
+    private vibration: Vibration,
     public aut: AuthService, public utils: UtilitiesService,
-    private light:LightService) {
+    private light: LightService) {
 
     this.searchF = this.formBuilder.group({
       title: ['', Validators.required]
@@ -57,7 +57,7 @@ export class Tab1Page {
     try {
       this.page = 1;
       this.notasS.leeNotasPorPagina(this.items_per_page, this.page)
-        .then((info) => {          
+        .then((info) => {
           //Ya ha llegado del servidor
           this.listaNotas = [];
           JSON.parse(info.data).forEach((doc) => {
@@ -87,29 +87,29 @@ export class Tab1Page {
   public borraNota(id: any) {
     this.vibration.vibrate(1000);
     this.utils.modal(ConfirmPage, {})
-    .then((clear) => {
-      if (clear.data == true) {
-        this.notasS.borraNota(id)
-          .then(() => {
-            let tmp = [];
-            this.listaNotas.forEach((nota) => {
-              if (nota.id != id) {
-                tmp.push(nota);
-              }
+      .then((clear) => {
+        if (clear.data == true) {
+          this.notasS.borraNota(id)
+            .then(() => {
+              let tmp = [];
+              this.listaNotas.forEach((nota) => {
+                if (nota.id != id) {
+                  tmp.push(nota);
+                }
+              })
+              this.listaNotas = tmp;
             })
-            this.listaNotas = tmp;
-          })
-          .catch(err => {
+            .catch(err => {
 
-          })
-      }
-    })
+            })
+        }
+      })
   }
 
   public editaNota(nota: Nota) {
     let pos: number = this.listaNotas.indexOf(nota);
 
-    this.utils.modal(EditNotaPage, {nota:nota}).then(data => {
+    this.utils.modal(EditNotaPage, { nota: nota }).then(data => {
       if (data.data) {
         this.listaNotas[pos] = data.data;
       }
@@ -134,19 +134,17 @@ export class Tab1Page {
 
 
   public async loadData(event) {
-    this.page +=1; 
-      await this.notasS.leeNotasPorPagina(this.items_per_page, this.page).then((data)=>{
-        JSON.parse(data.data).forEach((doc) => {
-          let nota = {
-            id: doc.id,
-            ...doc as Nota
-          }
-          this.listaNotas.push(nota);
-        })
-        event.target.complete();
+    this.page += 1;
+    await this.notasS.leeNotasPorPagina(this.items_per_page, this.page).then((data) => {
+      JSON.parse(data.data).forEach((doc) => {
+        let nota = {
+          id: doc.id,
+          ...doc as Nota
+        }
+        this.listaNotas.push(nota);
       })
-
-
+      event.target.complete();
+    })
   }
 
 }
