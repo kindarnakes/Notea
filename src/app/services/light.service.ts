@@ -13,8 +13,8 @@ export class LightService {
 
   public async enableCheckDarkMode() {
 
-    this.sensors.enableSensor(TYPE_SENSOR.LIGHT);
     if (this.platform.is("android")) {
+      this.sensors.enableSensor(TYPE_SENSOR.LIGHT);
       setInterval(async () => {
         await this.sensor.getState().then((data) => {
           console.log(data[0]);

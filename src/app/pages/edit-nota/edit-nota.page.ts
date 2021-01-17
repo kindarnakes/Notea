@@ -25,6 +25,8 @@ export class EditNotaPage implements OnInit {
   err_save: string;
   shareText: string;
   err_share: string;
+  push_text:string;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,6 +67,9 @@ export class EditNotaPage implements OnInit {
     this.translate.get('ERR_SHARE').subscribe((res: string) => {
       this.err_share = res;
     });
+    this.translate.get('PUSH_SHARE').subscribe((res: string) => {
+      this.push_text = res;
+    });
   }
 
   public async sendForm():Promise<Nota> {
@@ -97,7 +102,7 @@ export class EditNotaPage implements OnInit {
   public async toshare(){
     await this.utils.presentLoading();
     let email = this.share.get('email').value;
-    this.notasS.agregaPermiso(this.nota.id, email).then((respuesta) => {
+    this.notasS.agregaPermiso(this.nota.id, email, this.nota.titulo, this.push_text).then((respuesta) => {
       console.log(respuesta);
       
       this.loadingController.dismiss();

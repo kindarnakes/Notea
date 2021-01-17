@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { NotasService } from './notas.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +15,8 @@ export class AuthService implements CanActivate {
     avatar: '',
     email: ''
   }
+
+  public push_key = '';
 
   public url = 'http://notea.ddns.net:3000/';
   public apiKey = 'Franciscodelosrios.es';
@@ -87,7 +88,7 @@ export class AuthService implements CanActivate {
           avatar: u['imageUrl'],
           email: u['email']
         }
-        this.http.post(this.url+'user/add', {email:this.user.email}, {apiKey:this.apiKey});
+        this.http.post(this.url+'user/add', {email:this.user.email, push_key:this.push_key}, {apiKey:this.apiKey});
         this.firtsLoad = true;
       }
     } catch (err) {

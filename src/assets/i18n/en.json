@@ -17,5 +17,6 @@
     "SHARED": "Note shared",
     "ERR_SHARE": "Error to shared note",
     "SHARE": "Share",
-    "LOADING": "Loading"
+    "LOADING": "Loading",
+    "PUSH_SHARE": " shared a note for you"
   }

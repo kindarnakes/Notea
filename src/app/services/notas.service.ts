@@ -17,6 +17,7 @@ export class NotasService {
   public apiKey = 'Franciscodelosrios.es';
 
   constructor(/*private fire: AngularFirestore,*/ private authS: AuthService, private http: HTTP) {
+    this.http.setDataSerializer('json');
   }
 
   async coleccion() {
@@ -46,8 +47,8 @@ export class NotasService {
   agregaNota(nuevaNota: Nota): Promise<any> {
     return this.http.post(this.url + 'nota', { ...nuevaNota, id_usuario: nuevaNota.creador, fecha: '0000-00-00' }, { apiKey: this.apiKey });
   }
-  agregaPermiso(id: number, email: String) {
-    return this.http.post(this.url + 'nota/permiso', { id_usuario: email, id_nota: id }, { apiKey: this.apiKey });
+  agregaPermiso(id: number, email: String, title:string, body:string) {
+    return this.http.post(this.url + 'nota/permiso', { id_usuario: email, id_nota: id,  title:title, body:this.authS.user.email + body}, { apiKey: this.apiKey });
   }
   leeNotas(): Promise<HTTPResponse> {
     return this.http.get(this.url + 'notas/acceso', {}, { apiKey: this.apiKey, user: this.authS.user.email });
@@ -67,5 +68,8 @@ export class NotasService {
   }
   leeNotasPorPagina(items:number, page:number): Promise<HTTPResponse> {
     return this.http.get(this.url + 'notas/page/'+ items + '/'+ page, {}, { apiKey: this.apiKey, user: this.authS.user.email });
+  }
+  quitaPermiso(id: number, email: String) {
+    return this.http.delete(this.url + 'nota/bloquear/' + id + "/" + email, { }, { apiKey: this.apiKey });
   }
 }

@@ -17,5 +17,6 @@
     "SHARED": "Nota compartida",
     "ERR_SHARE": "Error compartiendo la nota",
     "SHARE": "Compartir",
-    "LOADING": "Cargando"
+    "LOADING": "Cargando",
+    "PUSH_SHARE": " te ha compartido una nota"
   }

@@ -31,6 +31,9 @@ import { GeolocationService } from './services/geolocation.service';
 import { TranslationService } from './services/translation.service';
 import { Sensors } from '@ionic-native/sensors/ngx';
 import { LightService } from './services/light.service';
+import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { NotificationsService } from './services/notifications.service';
 
 export function setTranslateLoader(http: any) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -71,7 +74,10 @@ export function setTranslateLoader(http: any) {
     GeolocationService,
     TranslationService,
     Sensors,
-    LightService
+    LightService,
+    FCM,
+    LocalNotifications,
+    NotificationsService
 
   ],
   bootstrap: [AppComponent]

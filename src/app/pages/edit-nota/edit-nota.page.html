@@ -14,7 +14,7 @@
       </ion-textarea>
     </ion-item>
     <div style="text-align: right;">
-      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!tasks.valid">{{'ADD' | translate}}
+      <ion-button shape="round" color="secondary" fill="outline" type="submit" [disabled]="!tasks.valid" *ngIf="this.nota.creador == this.auth.user.email">{{'ADD' | translate}}
       </ion-button>
     </div>
   </form>
@@ -27,7 +27,7 @@
       <ion-input type="text" formControlName="email" [placeholder]="'EMAIL' | translate"></ion-input>
     </ion-item>
     <div style="text-align: right;">
-      <ion-button shape="round" color="primary" fill="outline" type="submit" [disabled]="!share.valid">{{'SHARE' | translate}}
+      <ion-button shape="round" color="secondary" fill="outline" type="submit" [disabled]="!share.valid">{{'SHARE' | translate}}
       </ion-button>
     </div>
   </form>

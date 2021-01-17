@@ -86,22 +86,53 @@ export class Tab1Page {
 
   public borraNota(id: any) {
     this.vibration.vibrate(1000);
+    let i;
+    for (let n in this.listaNotas) {
+      if (this.listaNotas[n].id == id) {
+        i = n;
+        break;
+      }
+    }
+
     this.utils.modal(ConfirmPage, {})
       .then((clear) => {
         if (clear.data == true) {
-          this.notasS.borraNota(id)
-            .then(() => {
-              let tmp = [];
-              this.listaNotas.forEach((nota) => {
-                if (nota.id != id) {
-                  tmp.push(nota);
-                }
-              })
-              this.listaNotas = tmp;
-            })
-            .catch(err => {
 
-            })
+          if (this.listaNotas[i].creador == this.aut.user.email) {
+
+            this.notasS.borraNota(id)
+              .then(() => {
+                let tmp = [];
+                this.listaNotas.forEach((nota) => {
+                  if (nota.id != id) {
+                    tmp.push(nota);
+                  }
+                })
+                this.listaNotas = tmp;
+              })
+              .catch(err => {
+                console.log(err);
+              })
+
+          } else {
+
+            this.notasS.quitaPermiso(id, this.aut.user.email)
+              .then(() => {
+                
+                let tmp = [];
+                this.listaNotas.forEach((nota) => {
+                  if (nota.id != id) {
+                    tmp.push(nota);
+                  }
+                })
+                this.listaNotas = tmp;
+              })
+              .catch(err => {
+                console.log(err);
+                
+              })
+
+          }
         }
       })
   }
