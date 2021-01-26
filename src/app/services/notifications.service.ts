@@ -22,6 +22,9 @@ export class NotificationsService {
         this.authS.push_key = token;
         console.log(token);
 
+      }).catch(err =>{
+        console.log("No push token");
+        
       });
 
       this.fcm.onNotification().subscribe(data => {

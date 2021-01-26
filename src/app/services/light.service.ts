@@ -15,7 +15,7 @@ export class LightService {
 
     if (this.platform.is("android")) {
       this.sensors.enableSensor(TYPE_SENSOR.LIGHT);
-      setInterval(async () => {
+      let interval = setInterval(async () => {
         await this.sensor.getState().then((data) => {
           console.log(data[0]);
           if (data[0] < 0.5 && !this.auto_dark) {
@@ -25,6 +25,9 @@ export class LightService {
             document.body.classList.remove('dark');
             this.auto_dark = false;
           }
+        }).catch(err=>{
+          console.log("No light sensor access");
+          clearInterval(interval);
         });
       }, 3000);
     }
